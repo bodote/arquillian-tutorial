@@ -19,6 +19,15 @@ import org.junit.Test;
 public class GreeterTest {
 	@Deployment
 	public static JavaArchive createDeployment() {
+		 System.out.println("property: java.util.logging.manager=" + System.getProperty("java.util.logging.manager"));
+		 System.out.println("property: project.baseDir=" + System.getProperty("project.baseDir"));
+		 //need this in Eclipse, otherwise Test will not run inside Eclipse!	
+		 //set in Eclipse Run/Debug Configuration-> (x)=Arguments -> "vm Arguments" add this: 
+		 //-Djava.util.logging.manager=org.jboss.logmanager.LogManager  -Dproject.baseDir=${workspace_loc:myEclipseProjectName}
+		 //but when run from command line with gradle , these variables will be  set in the gradle.build file
+		
+		 assertEquals(System.getProperty("java.util.logging.manager"), "org.jboss.logmanager.LogManager");;
+		 assertNotNull(System.getProperty("project.baseDir"));
 		System.getProperties().entrySet().forEach(e -> {
 			System.out.println("prop: " + e.getKey() + "=" + e.getValue());
 		});
